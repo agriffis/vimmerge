@@ -1,9 +1,8 @@
 #!/bin/bash
-# $Id: vimmerge 4036 2010-04-13 23:16:41Z agriffis $
 #
 # vimmerge -- 2-way or 3-way merging with vim
 #
-# Copyright 2005 Aron Griffis <agriffis@gentoo.org>
+# Copyright 2005, 2013 Aron Griffis <aron@arongriffis.com>
 # Released under the GNU GPL v2
 #
 # This script can run in one of five modes:
