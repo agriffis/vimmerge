@@ -2,7 +2,7 @@
 #
 # vimmerge -- 2-way or 3-way merging with vim
 #
-# Copyright 2005, 2013 Aron Griffis <aron@arongriffis.com>
+# Copyright 2005, 2013, 2018 Aron Griffis <aron@arongriffis.com>
 # Released under the GNU GPL v2
 #
 # This script can run in one of five modes:
@@ -33,13 +33,15 @@
 #   vimmerge -w merged conflicted
 
 main() {
+  declare cmd args status
+  declare backup=false
+  declare -a backup_mv_flags
+  declare quiet=false
+  declare mine older yours write order
+  declare o tmp_mine tmp_yours
+
   cmd=${0%merge}
   cmd=${cmd##*/}
-  unset mine older yours write order
-  backup=false
-  unset backup_mv_flags
-  quiet=false
-
   args=$(getopt -o m:y:o:w:bq --long mine:,yours:,older:,write:,quiet,backup -n "$0" -- "$@") || exit
   eval set -- "$args"
 
@@ -84,11 +86,11 @@ main() {
   fi
 
   # Default output file is $mine
+  # shellcheck disable=SC2086
   : ${write:=$mine}
 
   # 3-way and RCS merge require temporary files
   if [[ -z $yours || -n $older ]]; then
-    unset tmp_mine tmp_yours
     trap 'rm -f "$tmp_mine" "$tmp_yours"' 0 1 2 15
     tmp_mine=$(mktemp -t mine.XXXXXX) || exit 1
     tmp_yours=$(mktemp -t conflicts.XXXXXX) || exit 1
@@ -135,8 +137,8 @@ main() {
 
     # was the simple merge fully successful?
     if cmp --quiet "$tmp_mine" "$tmp_yours"; then
-      $backup && backup_mv_flags="--backup=simple --suffix=.orig"
-      mv $backup_mv_flags "$tmp_mine" "$write" || exit 1
+      $backup && backup_mv_flags=("--backup=simple" "--suffix=.orig")
+      mv "${backup_mv_flags[@]}" "$tmp_mine" "$write" || exit 1
       $quiet || echo "Simple merge successful ($write)"
       exit 0
     fi
