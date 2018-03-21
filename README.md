@@ -7,7 +7,7 @@ This script can run in one of five modes:
   2. 2-way merge with output to a new file
   3. 3-way merge with output to "mine"
   4. 3-way merge with output to a new file
-  5. 2-way merge with all input coming from one file, 
+  5. 2-way merge with all input coming from one file,
      which uses markup similar to the output of RCS merge.
      In this case, only a single input file is given on the cmdline.
 
@@ -27,7 +27,7 @@ explicitly or use --order:
     vimmerge --order oymw older yours mine merged
 
 To use mode 5, where the input file is the result of running RCS merge,
-simply specify a single input file, optionally specifying an alternate output
+specify a single input file, optionally specifying an alternate output
 file.
 
     vimmerge conflicted
