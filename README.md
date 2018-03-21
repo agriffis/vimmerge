@@ -1,9 +1,8 @@
 vimmerge
 ========
 
-Wrapper for merging with vimdiff. Handles 2- and 3-way merges, optionally
-writing output to a new file. Also handles RCS merge markup as git
-generates for merge conflicts.
+Wrapper for merging with vim. Handles 2- and 3-way merges, also
+git merges with RCS conflict markers.
 
 git mergetool
 -------------
