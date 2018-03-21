@@ -48,7 +48,7 @@ main() {
   while true; do
     case $1 in
       -b|--backup) backup=true; shift ;;
-      -m|--mine)  mine=$2; shift 2 ;;
+      -m|--mine) mine=$2; shift 2 ;;
       -o|--older) older=$2; shift 2 ;;
       -y|--yours) yours=$2; shift 2 ;;
       -w|--write) write=$2; shift 2 ;;
@@ -123,12 +123,6 @@ main() {
 
   # 3-way merge
   if [[ -n $older ]]; then
-    unset tmp_mine tmp_yours
-
-    trap 'rm -f "$tmp_mine" "$tmp_yours"' 0 1 2 15
-    tmp_mine=$(mktemp -t mine.XXXXXX) || exit 1
-    tmp_yours=$(mktemp -t conflicts.XXXXXX) || exit 1
-
     diff3 --easy-only --merge "$mine" "$older" "$yours" > "$tmp_mine"
     [[ $? == 2 ]] && exit 2  # 2 == trouble
 
