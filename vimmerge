@@ -91,7 +91,7 @@ main() {
 
   # 3-way and RCS merge require temporary files
   if [[ -z $yours || -n $older ]]; then
-    trap 'rm -f "$tmp_mine" "$tmp_yours"' 0 1 2 15
+    trap 'rm -f "$tmp_mine" "$tmp_yours"; exit' 0 1 2 15
     tmp_mine=$(mktemp -t mine.XXXXXX) || exit 1
     tmp_yours=$(mktemp -t conflicts.XXXXXX) || exit 1
   fi
