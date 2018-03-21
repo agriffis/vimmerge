@@ -4,6 +4,8 @@ vimmerge
 Wrapper for merging with vim. Handles 2- and 3-way merges, also
 git merges with RCS conflict markers.
 
+[![asciicast](vimmerge.gif)](https://asciinema.org/a/171484)
+
 git mergetool
 -------------
 
