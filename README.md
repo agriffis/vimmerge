@@ -6,23 +6,26 @@ git merges with RCS conflict markers.
 
 [![asciicast](vimmerge.gif)](https://asciinema.org/a/171484)
 
-git mergetool
--------------
+install
+-------
 
-You can use vimmerge with git mergetool like this:
+Vimmerge is just one script, so you can install by downloading to any
+directory in the path. For example:
 
-    git config --global merge.tool vimmerge
-    git config --global mergetool.vimmerge.cmd 'vimmerge \"$MERGED\"'
+    cd /usr/local/bin
+    sudo curl -O https://raw.githubusercontent.com/agriffis/vimmerge/master/vimmerge
+    sudo chmod +x vimmerge
 
-You might also want this to avoid `.orig` files littering your working
-tree:
+usage
+-----
 
-    git config --global mergetool.keepBackup false
+### git merge
 
-Now when you merge with conflicts, it's like this:
+The screencast above demonstrates using vimmerge with git:
 
-    git merge branch  # conflicts!
-    git mergetool     # runs vimmerge in sequence on conflicting files
+    git merge branch   # conflicts!
+    git status         # find a file that's in conflict
+    vimmerge filename
 
 At this point you have two windows in vim, just as you would have with
 vimdiff. One window is the conflicts from the merge, the other window is
@@ -32,22 +35,34 @@ resolve the conflicts, then write out your file when you're done.
 
 If you `:qa!` (quit without writing) then nothing is modified on disk.
 
-git without mergetool
----------------------
+### git mergetool
 
-You can also use vimmerge without git's mergetool config. Without
-mergetool, it's like this:
+Git has a slightly more sophisticated approach to merges using the
+mergetool command, which automates some of the flow. Vimmerge works well
+as git mergetool. Here's the config:
+
+    git config --global merge.tool vimmerge
+    git config --global mergetool.vimmerge.cmd 'vimmerge \"$MERGED\"'
+
+You might also want this to avoid `.orig` files littering your working
+tree:
+
+    git config --global mergetool.keepBackup false
+
+Now when you merge with conflicts, it's a bit more streamlined:
 
     git merge branch  # conflicts!
-    git status        # find a file that's in conflict
-    vimmerge filename
+    git mergetool     # runs vimmerge in sequence on conflicting files
 
-Just like using git mergetool, you now have something that looks like
-vimdiff, and at this point it converges with the mergetool instructions
-above.
+As it works without mergetool, you now have two windows in vim. One window
+is the conflicts from the merge, the other window is your file. You can use
+[window movement keys](http://vimdoc.sourceforge.net/htmldoc/windows.html#window-move-cursor)
+and [diff commands](http://vimdoc.sourceforge.net/htmldoc/diff.html#copy-diffs) to
+resolve the conflicts, then write out your file when you're done.
 
-non-git modes
--------------
+If you `:qa!` (quit without writing) then nothing is modified on disk.
+
+### non-git modes
 
 This script is pretty flexible and varies depending on the command-line
 arguments. Two-way merges look like this:
